@@ -59,7 +59,7 @@ auth.onAuthStateChanged(user => {
                     booksList.innerHTML = `There are no items.`;
                 } else {
                     const items = querySnapshot.docs.map(doc => {
-                        return `<li>${ doc.data().name }</li>`
+                        return `<input type="checkbox" id="${doc.data().name}" name="${doc.data().name}"><label for="${doc.data().name}"><li>${ doc.data().name }</li></label>`
                     });
 
                     booksList.innerHTML = items.join('');
