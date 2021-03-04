@@ -59,12 +59,41 @@ auth.onAuthStateChanged(user => {
                     booksList.innerHTML = `There are no items.`;
                 } else {
                     const items = querySnapshot.docs.map(doc => {
-                        return `<input type="checkbox" id="${doc.data().name}" name="${doc.data().name}"><label for="${doc.data().name}"><li>${ doc.data().name }</li></label>`
+                        return `<li class="no-bullets">
+                            <input type="checkbox" id="${doc.data().name}" name="books" value="${doc.data().name}">
+                            <label for="${doc.data().name}" class="strikethrough">${ doc.data().name }</label>
+                            </li>`
                     });
 
                     booksList.innerHTML = items.join('');
                 }
             });
+
+        function getSelectedCheckboxValues(name){
+            const cb = document.querySelectorAll(`input[name="${name}"]:checked`);
+            let books = [];
+
+            cb.forEach((checkbox) => {
+                books.push(checkbox.value);
+            });
+        
+            return books;
+        }
+        
+        const deleteBtn = document.getElementById('deleteSelected');
+        
+        deleteBtn.addEventListener('click', (e) => {
+            // thingsRef.where('uid', '==', user.uid)
+            // .onSnapshot(querySnapshot => {
+            //     for(book in books){
+            //         if(book == `${doc.data().name}`){
+            //             book.delete();
+            //         }
+            //     }
+            // })
+            alert(getSelectedCheckboxValues('books'));
+        })
+        
 
     } else {
         unsubscribe && unsubscribe();
@@ -72,3 +101,4 @@ auth.onAuthStateChanged(user => {
         booksList.innerHTML = '';
     }
 })
+

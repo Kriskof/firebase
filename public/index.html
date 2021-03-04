@@ -39,6 +39,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"
     integrity="sha512-/seDHxVfh1NvFUscAj8GsHQVZJvr2jjAoYsNL7As2FCaFHUHYIarl3sRCvVlFgyouVNiRgHIebyLKjpgd1SLDw=="
     crossorigin="anonymous"></script>
+
+    <style>
+        input[type=checkbox]:checked + label.strikethrough{
+            text-decoration: line-through;
+        }
+
+        .no-bullets {
+            list-style-type: none;
+        }
+    </style>
 </head>
 <body>
     <h1>My Awesome App</h1>
@@ -58,8 +68,14 @@
             <ul id="booksList">
     
             </ul>
+
+            <p>
+                <button id="deleteSelected">Delete</button>
+            </p>
     
-            <button id="createThing">Create Random Things</button>
+            <p>
+                <button id="createThing">Create Random Things</button>
+            </p>
     
         </section>
 
