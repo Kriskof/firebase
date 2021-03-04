@@ -59,9 +59,9 @@ auth.onAuthStateChanged(user => {
                     deleteBtn.hidden = true;
                 } else {
                     const items = querySnapshot.docs.map(doc => {
-                        return `<li class="no-bullets">
-                            <input type="checkbox" id="${doc.data().name}" name="books" value="${doc.data().name}">
-                            <label for="${doc.data().name}" class="strikethrough">${ doc.data().name }</label>
+                        return `<li>
+                            <input type="checkbox" id="${doc.id}" name="books" value="${doc.data().name}">
+                            <label for="${doc.id}" class="strikethrough">${ doc.data().name }</label>
                             </li>`
                     });
 
@@ -72,10 +72,11 @@ auth.onAuthStateChanged(user => {
 
         function getSelectedCheckboxValues(name){
             const cb = document.querySelectorAll(`input[name="${name}"]:checked`);
-            let books = [];
+
+            let books = new Map();
 
             cb.forEach((checkbox) => {
-                books.push(checkbox.value);
+                books.set(checkbox.id, checkbox.value);
             });
         
             return books;
@@ -84,15 +85,11 @@ auth.onAuthStateChanged(user => {
         const deleteBtn = document.getElementById('deleteSelected');
         
         deleteBtn.addEventListener('click', (e) => {
-            // thingsRef.where('uid', '==', user.uid)
-            // .onSnapshot(querySnapshot => {
-            //     for(book in books){
-            //         if(book == `${doc.data().name}`){
-            //             book.delete();
-            //         }
-            //     }
-            // })
-            alert(getSelectedCheckboxValues('books'));
+            getSelectedCheckboxValues('books').forEach((value, key, map) => {
+                thingsRef.doc(`${key}`).delete().then(() => {
+                    console.log("Successfully deleted");
+                })
+            })
         })
         
 
