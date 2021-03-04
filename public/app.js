@@ -27,8 +27,6 @@ auth.onAuthStateChanged(user => {
     }
 });
 
-
-
 const db = firebase.firestore();
 
 const createThing = document.getElementById('createThing');
@@ -54,9 +52,11 @@ auth.onAuthStateChanged(user => {
 
         unsubscribe = thingsRef
             .where('uid', '==', user.uid)
+            .orderBy("createdAt", "desc")
             .onSnapshot(querySnapshot => {
                 if(querySnapshot.empty){
                     booksList.innerHTML = `There are no items.`;
+                    deleteBtn.hidden = true;
                 } else {
                     const items = querySnapshot.docs.map(doc => {
                         return `<li class="no-bullets">
@@ -66,6 +66,7 @@ auth.onAuthStateChanged(user => {
                     });
 
                     booksList.innerHTML = items.join('');
+                    deleteBtn.hidden = false;
                 }
             });
 
